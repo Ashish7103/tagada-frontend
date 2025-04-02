@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, Users, FileText, Lock, Key } from 'lucide-react';
-import tagadaHomeBg from "./Images/tagadaHomeBg.png";
+import tagadaHomeBg from "Images/tagadaHomeBg.png";
 // import tagadalogo from "../../Images/Tagadalogo.png";
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
