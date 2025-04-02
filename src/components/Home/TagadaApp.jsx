@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, Users, FileText, Lock, Key } from 'lucide-react';
-import tagadaHomeBg from "./Images/tagadaHomeBg.png";
-// import tagadalogo from "../../Images/Tagadalogo.png";
+import tagadaHomeBg from "../../Images/TagadaHomeBg.png";
+import tagadalogo from "../../Images/Tagadalogo.png";
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
     <div className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center mb-3">
@@ -30,7 +30,7 @@ const TagadaApp = () => {
       {/* Navbar */}
       <nav className="fixed top-0 w-full bg-white z-50 border-b border-gray-200">
         <div className="max-w-8xl mx-auto px-4 h-14 flex items-center justify-between">
-        {/* <img 
+        <img 
           src={tagadalogo} 
           alt="Tagada Logo" 
           className=" size-28" // Adjust height as needed
@@ -47,7 +47,7 @@ const TagadaApp = () => {
       <main className="pt-14">
         {/* Hero Section */}
         <section className="relative h-[400px] overflow-hidden">
-          {/* <img 
+          <img 
             src={tagadaHomeBg} 
             alt="Tagada App Background" 
             className="w-full h-full object-cover object-top" 
