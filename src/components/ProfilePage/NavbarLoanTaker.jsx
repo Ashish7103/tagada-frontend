@@ -24,7 +24,7 @@ const NavbarLoanTaker = ({ profile }) => {
 
   const generateQRCode = () => {
     const data = Math.floor(100000 + Math.random() * 900000);
-    const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data}`;
+    const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${profile?.uid}`;
     setQrCodeUrl(url);
     setShowQRPopup(true);
   };
