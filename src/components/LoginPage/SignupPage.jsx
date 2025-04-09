@@ -1,20 +1,22 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-const API_BASE_URL ="https://tagada.onrender.com";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signup } from '../../Redux/authActions';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    phone: "",
-    aadhar: "",
-    name: "",
-    password: "",
-    role_id: "",
+    username: '',
+    email: '',
+    phone: '',
+    aadhar: '',
+    name: '',
+    password: '',
+    role_id: '',
   });
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user, isAuthenticated, loading, error } = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,73 +39,67 @@ const SignUp = () => {
       !formData.name ||
       !formData.role_id
     ) {
-      alert("Please fill in all fields including role selection");
+      dispatch({ type: 'SIGNUP_FAIL', payload: 'Please fill in all fields including role selection' });
       return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      alert("Please enter a valid email address");
+      dispatch({ type: 'SIGNUP_FAIL', payload: 'Please enter a valid email address' });
       return;
     }
 
     if (!/^\d{10}$/.test(formData.phone)) {
-      alert("Please enter a valid 10-digit phone number");
+      dispatch({ type: 'SIGNUP_FAIL', payload: 'Please enter a valid 10-digit phone number' });
       return;
     }
 
     if (!/^\d{12}$/.test(formData.aadhar)) {
-      alert("Please enter a valid 12-digit Aadhar number");
+      dispatch({ type: 'SIGNUP_FAIL', payload: 'Please enter a valid 12-digit Aadhar number' });
       return;
     }
 
     if (formData.password.length < 8) {
-      alert("Password must be at least 8 characters long");
+      dispatch({ type: 'SIGNUP_FAIL', payload: 'Password must be at least 8 characters long' });
       return;
     }
 
-    const payload = {
-      username: formData.username,
-      email: formData.email,
-      password: formData.password,
-      phoneNumber: formData.phone,
-      AdharcardNumber: formData.aadhar,
-      Name: formData.name,
-      role_id: parseInt(formData.role_id),
-    };
+    // Store role_id locally before dispatching
+    const selectedRoleId = parseInt(formData.role_id);
+    dispatch(signup(formData));
 
-    try {
-      const response = await axios.post(
-        // "http://localhost:5000/LoginSignup/signup",
-        `${API_BASE_URL}/LoginSignup/signup`,
-        payload,
-        { withCredentials: true }
-      );
-
-      if (response.status === 201) {
-        alert("Signup successful!");
-        console.log("User created:", response.data);
-
-        // Using formData.role_id since backend response doesn't return role_id
-        const roleId = parseInt(formData.role_id);
-
-        switch (roleId) {
-          case 3:
-            navigate("/profile");
-            break;
-          case 2:
-            navigate("/admin");
-            break;
-          default:
-            navigate("/dashboard");
-        }
+    // Navigate immediately using the selected role_id if API doesn't return it
+    if (isAuthenticated) {
+      switch (selectedRoleId) {
+        case 3:
+          navigate('/profile');
+          break;
+        case 2:
+          navigate('/admin');
+          break;
+        default:
+          navigate('/dashboard');
       }
-    } catch (error) {
-      console.error("Signup error:", error.response?.data || error.message);
-      alert(
-        error.response?.data?.error || "An error occurred during signup. Please try again."
-      );
     }
   };
+
+  // Navigation fallback using Redux state (if API returns role_id)
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const roleId = user.role_id || parseInt(formData.role_id); // Fallback to formData.role_id
+      if (roleId) {
+        switch (roleId) {
+          case 3:
+            navigate('/profile');
+            break;
+          case 2:
+            navigate('/admin');
+            break;
+          default:
+            navigate('/dashboard');
+        }
+      }
+    }
+  }, [isAuthenticated, user, navigate, formData.role_id]);
 
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col">
@@ -136,6 +132,7 @@ const SignUp = () => {
           </div>
 
           <div className="bg-gradient-to-br from-white to-blue-50 p-8 shadow-lg rounded-lg border border-gray-200">
+            {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="role_id" className="block text-sm font-medium text-gray-700">
@@ -290,9 +287,10 @@ const SignUp = () => {
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-md"
+                  disabled={loading}
+                  className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-md disabled:bg-gray-400"
                 >
-                  Sign up
+                  {loading ? 'Signing up...' : 'Sign up'}
                 </button>
               </div>
             </form>
