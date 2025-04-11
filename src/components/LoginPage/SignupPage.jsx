@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signup } from '../../Redux/authActions';
+import { signup } from '../../Redux/actions/authActions';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
