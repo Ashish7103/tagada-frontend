@@ -92,9 +92,11 @@ Set up Tagada locally with the following steps:
      Open `http://localhost:3000` in your browser.
 
 2. **Sign Up**:
-   - Visit the landing page ![Tagada Landing Page](docs/screenshots/landing-page.png).
+   - Visit the landing page
+     ![Tagada Landing Page](docs/screenshots/landing-page.png).
    - Click "Moneylender Sign Up" or "Borrower Sign Up".
-   - On the signup page ![Tagada Signup Page](docs/screenshots/signup-page.png):
+   - On the signup page
+     ![Tagada Signup Page](docs/screenshots/signup-page.png):
      - Select your role (Moneylender or Borrower).
      - Enter username, email, phone number, Aadhaar number, and full name.
      - Submit to create your account.
@@ -104,7 +106,8 @@ Set up Tagada locally with the following steps:
    - Use your credentials to access the dashboard.
 
 4. **Dashboard Overview**:
-   - After logging in, view your dashboard ![Tagada Dashboard](docs/screenshots/dashboard.png).
+   - After logging in, view your dashboard
+     ![Tagada Dashboard](docs/screenshots/dashboard.png).
    - Check total loans (11), total amount (₹44,505), last payment (₹1,376), and due amount (₹42,033).
 
 5. **View Active Loans**:
