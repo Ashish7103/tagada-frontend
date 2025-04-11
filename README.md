@@ -1,8 +1,8 @@
-# TimeBuy: Loan Entry App
+# Tagada: Loan Management App
 
-**TimeBuy** is a web application for managing daily loan entries. Built with the MERN stack, Tailwind CSS, Redux, and Redis, it enables users to log loan transactions, track payments, and view history with a fast, responsive interface.
+**Tagada** is a web application designed to streamline loan management for moneylenders and borrowers. Built with the MERN stack, Tailwind CSS, Redux, and Redis, it offers real-time tracking, automated record-keeping, and payment management with a responsive, user-friendly interface.
 
-![TimeBuy Dashboard](docs/screenshots/dashboard.png)
+![Tagada Landing Page](docs/screenshots/landing-page.png)
 
 ## Table of Contents
 - [Features](#features)
@@ -15,11 +15,12 @@
 - [Contact](#contact)
 
 ## Features
-- Log daily loan entries (e.g., borrower, amount, date).
-- Track loan history and payment schedules in real time.
-- Responsive design with Tailwind CSS for mobile and desktop.
-- Efficient state management with Redux.
-- High-performance data caching with Redis.
+- Log and manage daily loan entries with customer details and payment status.
+- Track loan history, payment trends, and active loans via an intuitive dashboard.
+- Role-based access for moneylenders (real-time tracking) and borrowers (transparent terms).
+- Scan & Pay feature for quick transactions using QR codes.
+- Visualize payment trends with charts and download reports.
+- View loan details and payment schedules with a calendar interface.
 
 ## Tech Stack
 - **Frontend**: React, Redux, Tailwind CSS
@@ -30,7 +31,7 @@
 
 ## Installation
 
-Set up TimeBuy locally with the following steps:
+Set up Tagada locally with the following steps:
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -41,5 +42,5 @@ Set up TimeBuy locally with the following steps:
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/timebuy-loan-app.git
-   cd timebuy-loan-app
+   git clone https://github.com/your-username/tagada-loan-app.git
+   cd tagada-loan-app
