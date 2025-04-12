@@ -49,82 +49,82 @@ Set up Tagada locally with the following steps:
    npm install
    npm run dev
 ## User Manual
-Creating an Account {#creating-an-account}
+How to Get Started {#how-to-get-started}
+After setup at http://localhost:3000:
+
+Sign up using the landing pageand form.
+Log in to access the dashboard.
+Manage loans by adding new ones, viewing active loans, and checking details.
+Track payments with the calendaror trends.
+Use Scan & Pay for transactions.
+For detailed guidance, refer to the  section.
+
+User Manual {#user-manual}
+Creating an Account
 Access the App:
-Open your browser and navigate to http://localhost:3000 (or the deployed URL if provided).
-You will see the landing page.
+Open your browser and go to http://localhost:3000.
+View the landing page.
 Sign Up:
 Click "Moneylender Sign Up" or "Borrower Sign Up" (for loan takers).
-Fill out the signup formwith the following details:
+Fill the signup formwith:
 Name: Your full name.
 Email Address: A valid email.
 User ID: A unique identifier you choose.
 Aadhaar Number: Your 12-digit Aadhaar number.
 Mobile Number: Your active phone number.
-Select your role (Moneylender or Loan Taker) and submit the form.
-Unique UID Generation:
-Upon successful submission, Tagada will generate a unique 6-digit UID for your account (e.g., 123456). This UID will be displayed on your dashboard and used for loan transactions.
+Select your role and submit.
+Unique UID:
+After submission, Tagada generates a unique 6-digit UID (e.g., 123456) for your account, displayed on your dashboard.
 Log In:
-Return to the landing page, click "Login", and enter your User ID and a password (set during signup or provided) to access your account.
-For Moneylenders {#for-moneylenders}
-If you are a moneylender, follow these steps to manage loans effectively:
-
+Return to the landing page, click "Login", and use your User ID and password to access your account.
+For Moneylenders
 Set Up Loan Areas:
-From the menu, select "Areas" to open the manage areas page.
-Add all areas where you distribute loans (e.g., "viga", "area 1"):
-Search for existing areas or check boxes to select them.
-Click "+" to add new areas and "Add New Area" to save.
-This step is required before issuing loans to organize your loan distribution.
+Go to the menu and select "Areas".
+Add areas (e.g., "viga", "area 1") where you distribute loans:
+Search or check boxes to select areas.
+Click "+" to add and "Add New Area" to save.
+This is required before issuing loans.
 Create a Loan:
-Navigate to the dashboardand click "New Loan".
-Open the loan entry form.
-Fill in the details:
-UID: Enter the 6-digit UID of the loan taker (they must be a registered user).
-Area: Select an area from the dropdown (added in the previous step).
-Loan Amount: Enter the total amount, including the principal + interest rate.
-Paid Amount: Enter any amount already paid (initially 0).
+On the dashboard, click "New Loan".
+Open the loan formand enter:
+UID: The 6-digit UID of the loan taker (must be a registered user).
+Area: Select from added areas.
+Loan Amount: Total amount (principal + interest rate).
+Paid Amount: Initially 0 (or amount paid).
 Unpaid Amount: Calculated as Loan Amount - Paid Amount.
-Installment (PPD): Set the per-day payment amount.
-Submit the form to create the loan.
+Installment (PPD): Daily payment amount.
+Submit to create the loan.
 View Loan Dashboard:
-After creating a loan, you’ll be redirected to the loan dashboard.
-Check all active loans, including UID, name, loan amount, due amount, status, and "View Details" options.
-For Loan Takers {#for-loan-takers}
-If you are a loan taker, your experience focuses on tracking and managing your loan:
-
-Access Your Dashboard:
+Redirected to the loan dashboard.
+Check all active loans with UID, name, amounts, status, and "View Details".
+For Loan Takers
+Access Dashboard:
 Log in with your 6-digit UID and password.
-View your dashboardto see your loan status (e.g., required amount, paid amount).
+View your dashboardfor loan status.
 Check Loan Details:
-Click "View Details" on the active loans tableto see specifics.
-Review paid (e.g., ₹1361), due (e.g., ₹8639) amounts, installment (e.g., PPD 100), and payment schedule.
+Click "View Details" on the active loans tableto see.
+Review paid (e.g., ₹1361), due (e.g., ₹8639), installment (e.g., PPD 100), and schedule.
 Track Payments:
-Use the calendarto see due dates (e.g., April 12) and click to view details.
-Check payment trendsfor expected vs. received amounts.
-Managing Loans {#managing-loans}
-For Moneylenders:
-Monitor all loans on the dashboard.
-Update loan statuses or details by clicking "View Details"and editing if supported.
-For Loan Takers:
-Ensure timely payments based on the schedule in.
-Contact your moneylender for adjustments if needed.
-Collecting Payments {#collecting-payments}
+Use the calendarto see due dates (e.g., April 12).
+Check trendsfor expected vs. received amounts.
+Managing Loans
+Moneylenders: Monitor loans on the dashboardand update via "View Details"if supported.
+Loan Takers: Ensure timely payments per the schedule and contact your moneylender for adjustments.
+Collecting Payments
 Daily Collection:
-As a moneylender, meet the loan taker to collect the daily installment.
-Ask the loan taker to provide their QR code (generated via the app).
-Scan and Record Payment:
-From the menu, select "Scan and Pay".
-Click "Scan QR Code" to scan the loan taker’s QR code.
-Enter the amount collected and submit the record.
-The payment will be updated in the tabular formand reflected in the calendar viewon the dashboard.
+As a moneylender, meet the loan taker and request their QR code.
+Scan and Record:
+Select "Scan and Pay".
+Click "Scan QR Code", enter the collected amount, and submit.
+The record updates in the tableand calendar.
 Verify:
-Check the dashboard to ensure the paid amount is updated (e.g., last payment ₹1,376 increases with new collections).
-Troubleshooting {#troubleshooting}
-Login Issues: Ensure your User ID and password are correct. Reset via the "Login" page if needed.
-QR Scan Failure: Verify the QR code is generated by Tagada and not damaged. Retry or request a new code.
-Loan Not Showing: Confirm the loan taker’s UID is valid and they are a registered user.
+Check the dashboard to confirm the updated paid amount (e.g., last payment ₹1,376 increases).
+Troubleshooting
+Login Issues: Verify User ID and password. Reset via "Login" if needed.
+QR Scan Failure: Ensure the QR is Tagada-generated and undamaged. Retry or request a new code.
+Loan Not Showing: Confirm the loan taker’s UID is valid and registered.
 Contact Support if issues persist (see below).
-Contact Support {#contact-support}
-Email: freesprre7103Ashu@gmail.com
+Contact Support
+Email: your-email@example.com
 GitHub Issues: Open an Issue
-Twitter/X: @Ashish7103
+Twitter/X: @your-username
