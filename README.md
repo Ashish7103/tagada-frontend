@@ -5,6 +5,11 @@
 ![Tagada Landing Page](docs/screenshots/landing-page.png)
 
 *Landing page users see when accessing Tagada.*
+## Live Demo
+
+You can try the hosted version of the app here:  
+🌐 [https://tagada-test.netlify.app/](https://tagada-test.netlify.app/)
+
 
 ## Table of Contents
 - [Features](#features)
