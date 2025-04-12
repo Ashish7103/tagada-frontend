@@ -206,6 +206,6 @@ Check the dashboard to confirm the updated paid amount (e.g., last payment ₹1,
 
 ### Contact Support
 
-- **Email:** your-email@example.com  
+- **Email:** freespree7103ashish@gmail.com  
 - **GitHub Issues:** Open an Issue  
-- **Twitter/X:** [@your-username](https://twitter.com/your-username)
+
