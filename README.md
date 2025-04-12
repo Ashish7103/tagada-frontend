@@ -4,6 +4,8 @@
 
 ![Tagada Landing Page](docs/screenshots/landing-page.png)
 
+*Landing page users see when accessing Tagada.*
+
 ## Table of Contents
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -74,6 +76,10 @@ After setup at [http://localhost:3000](http://localhost:3000):
 **Access the App:**  
 Open your browser and go to [http://localhost:3000](http://localhost:3000). View the landing page.
 
+![Signup Page](docs/screenshots/signup-page.png)
+
+*User signup page with form for both moneylenders and borrowers.*
+
 **Sign Up:**  
 Click **"Moneylender Sign Up"** or **"Borrower Sign Up"** (for loan takers). Fill the signup form with:  
 - Name: Your full name  
@@ -100,6 +106,10 @@ Return to the landing page, click **"Login"**, and use your User ID and password
 - Click **"+"** to add and **"Add New Area"** to save  
 - This is required before issuing loans
 
+![Manage Areas](docs/screenshots/manage-areas.png)
+
+*Manage loan distribution areas from the Areas section.*
+
 **Create a Loan:**  
 On the dashboard, click **"New Loan"**. Fill in the form:  
 - UID: The 6-digit UID of the loan taker (must be a registered user)  
@@ -110,8 +120,16 @@ On the dashboard, click **"New Loan"**. Fill in the form:
 - Installment (PPD): Daily payment amount  
 - Submit to create the loan
 
+![Add Loan](docs/screenshots/add-loan.png)
+
+*Form for creating new loan entries.*
+
 **View Loan Dashboard:**  
 Redirected to the loan dashboard. Check all active loans with UID, name, amounts, status, and **"View Details"**.
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+*Dashboard showing all active loans.*
 
 ---
 
@@ -120,6 +138,10 @@ Redirected to the loan dashboard. Check all active loans with UID, name, amounts
 **Access Dashboard:**  
 Log in with your 6-digit UID and password. View your dashboard for loan status.
 
+![Active Loans](docs/screenshots/active-loans.png)
+
+*Loan taker’s dashboard with active loan listings.*
+
 **Check Loan Details:**  
 Click **"View Details"** on the active loans table to see:  
 - Paid (e.g., ₹1361)  
@@ -127,9 +149,21 @@ Click **"View Details"** on the active loans table to see:
 - Installment (e.g., PPD 100)  
 - Schedule
 
-**Track Payments:**  
-Use the calendar to see due dates (e.g., April 12).  
+**Track Payments:**
+
+![Loan Details](docs/screenshots/loan-details.png)
+
+*Detailed view of a specific loan record.*  
+Use the calendar to see due dates (e.g., April 12).
+
+![Payment Calendar](docs/screenshots/payment-calendar.png)
+
+*Calendar showing upcoming and past payments.*  
 Check trends for expected vs. received amounts.
+
+![Payment Trends](docs/screenshots/payment-trends.png)
+
+*Visualization of payment collection trends.*
 
 ---
 
@@ -148,7 +182,11 @@ Ensure timely payments per the schedule and contact your moneylender for adjustm
 **Daily Collection:**  
 As a moneylender, meet the loan taker and request their QR code.
 
-**Scan and Record:**  
+**Scan and Record:**
+
+![Scan & Pay](docs/screenshots/scan-pay.png)
+
+*Scan QR code to update daily collections instantly.*  
 - Select **"Scan and Pay"**  
 - Click **"Scan QR Code"**, enter the collected amount, and submit  
 - The record updates in the table and calendar
