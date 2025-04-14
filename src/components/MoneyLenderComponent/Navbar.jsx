@@ -40,6 +40,7 @@ import {
   faChartLine,
   faChartBar,
   faPlusCircle,
+  faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
@@ -85,7 +86,8 @@ const Navbar = ({ profile }) => {
               { icon: faQrcode, text: "Scan and Pay", path: "/scan-and-pay" },
               { icon: faChartLine, text: "Overview", path: "/overview" },
               { icon: faChartBar, text: "Payment Trend", path: "/payment-trend" },
-              { icon: faPlusCircle, text: "Add Loan", path: "/add-loan" }, // Link to /add-loan
+              { icon: faPlusCircle, text: "Add Loan", path: "/add-loan" },
+              { icon: faDownload, text: "Report", path: "/download" }, // Link to /add-loan
             ].map((item, index) => (
               <Link
                 key={index}
