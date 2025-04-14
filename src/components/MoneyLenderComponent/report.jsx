@@ -4,6 +4,8 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Navbar from "./Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 const API_BASE_URL = "https://tagada.onrender.com";
 
@@ -18,6 +20,7 @@ const DownloadReport = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [moneyLenderId, setMoneyLenderId] = useState(null);
+  const [isDownloaded, setIsDownloaded] = useState(false); // New state to track download
 
   // Fetch moneyLenderId from /profile/user
   useEffect(() => {
@@ -57,6 +60,7 @@ const DownloadReport = () => {
 
     setLoading(true);
     setError(null);
+    setIsDownloaded(false); // Reset download state when generating a new report
 
     try {
       console.log("Generating report with params:", reportParams); // Debug log
@@ -69,11 +73,14 @@ const DownloadReport = () => {
       console.log("Report Response:", response.data); // Debug log
       if (response.data.downloadLink) {
         setDownloadLink(response.data.downloadLink);
+      } else if (response.data && (!response.data.downloadLink || (Array.isArray(response.data) && response.data.length === 0))) {
+        // Check for no records
+        setError("No record found between selected dates");
       } else {
-        throw new Error("No download link received");
+        throw new Error("Unexpected response format");
       }
     } catch (err) {
-      setError("Failed to generate report: " + err.message);
+      setError(`Failed to generate report: ${err.message}`);
       console.error("Report Generation Error:", err);
     } finally {
       setLoading(false);
@@ -82,8 +89,9 @@ const DownloadReport = () => {
 
   // Handle download
   const handleDownload = () => {
-    if (downloadLink) {
+    if (downloadLink && !isDownloaded) {
       window.location.href = downloadLink; // Trigger download
+      setIsDownloaded(true); // Disable further clicks
     }
   };
 
@@ -138,13 +146,22 @@ const DownloadReport = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Start Date
             </label>
-            <DatePicker
-              selected={reportParams.startDate ? new Date(reportParams.startDate) : null}
-              onChange={(date) => handleDateChange("startDate", date)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholderText="Select Start Date"
-              dateFormat="yyyy-MM-dd"
-            />
+            <div className="relative flex items-center">
+              <DatePicker
+                selected={reportParams.startDate ? new Date(reportParams.startDate) : null}
+                onChange={(date) => handleDateChange("startDate", date)}
+                className="w-full p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholderText="Select Start Date"
+                dateFormat="yyyy-MM-dd"
+              />
+              <div className="bg-gray-50 border border-l-0 border-gray-200 rounded-r-md flex items-center justify-center p-2 cursor-pointer">
+                <FontAwesomeIcon
+                  icon={faCalendarAlt}
+                  className="text-gray-500"
+                  onClick={() => document.querySelector('input[placeholder="Select Start Date"]').focus()}
+                />
+              </div>
+            </div>
           </div>
 
           {/* End Date */}
@@ -152,13 +169,22 @@ const DownloadReport = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               End Date
             </label>
-            <DatePicker
-              selected={reportParams.endDate ? new Date(reportParams.endDate) : null}
-              onChange={(date) => handleDateChange("endDate", date)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholderText="Select End Date"
-              dateFormat="yyyy-MM-dd"
-            />
+            <div className="relative flex items-center">
+              <DatePicker
+                selected={reportParams.endDate ? new Date(reportParams.endDate) : null}
+                onChange={(date) => handleDateChange("endDate", date)}
+                className="w-full p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholderText="Select End Date"
+                dateFormat="yyyy-MM-dd"
+              />
+              <div className="bg-gray-50 border border-l-0 border-gray-200 rounded-r-md flex items-center justify-center p-2 cursor-pointer">
+                <FontAwesomeIcon
+                  icon={faCalendarAlt}
+                  className="text-gray-500"
+                  onClick={() => document.querySelector('input[placeholder="Select End Date"]').focus()}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -185,6 +211,7 @@ const DownloadReport = () => {
             <button
               onClick={handleDownload}
               className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={isDownloaded} // Disable button after first click
             >
               Download Report
             </button>
