@@ -10,6 +10,7 @@ import {
   faChartLine,
   faChartBar,
   faPlusCircle,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
@@ -100,6 +101,7 @@ const NavbarLoanTaker = ({ profile }) => {
                            { icon: faInfoCircle, text: "Personal Information", path: "/profile/profile-information" },
                            { icon: faChartBar, text: "Overview", path: "/profile/LoanOverview" },
                            { icon: faChartLine, text: "Reliability Index", path: "/profile/relibility" },
+                           { icon: faSignOutAlt, text: "Logout", path: "/logout" },
             ].map((item, index) => (
               <Link
                 key={index}
