@@ -13,6 +13,7 @@ import LoanTable from './components/MoneyLenderComponent/LoanTable';
 import ChartsSection from './components/MoneyLenderComponent/ChartsSection';
 import AddNewLoan from './components/MoneyLenderComponent/AddNewLoan';
 import DownloadComponent from './components/MoneyLenderComponent/report';
+import Logout from './components/MoneyLenderComponent/Logout';
 
 //////////////////////////////////////////
 import PersonalInformationLoanTaker from './components/ProfilePage/PersonalInformation';
@@ -40,7 +41,7 @@ function App() {
         <Route path="/overview" element={<LoanTable />} />
         <Route path="/add-loan" element={<AddNewLoan/>} />
         <Route path="/download" element={<DownloadComponent/>} />
-
+        <Route path="/logout" element={<Logout />} />
         
 
         {/* user profile */}
