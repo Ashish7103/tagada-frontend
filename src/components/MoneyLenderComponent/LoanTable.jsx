@@ -4,12 +4,16 @@ import Navbar from "./Navbar"; // Assuming you have a Navbar component
 import PaymentCalendar from "./PaymentCalendar"; // Assuming this component exists
 import { XMarkIcon } from "@heroicons/react/20/solid"; // Import XMarkIcon for the close button
 
-const API_BASE_URL ="https://tagada.onrender.com";
+const API_BASE_URL = "https://tagada.onrender.com";
+
 const LoanTable = () => {
   const [profile, setProfile] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [loanDetails, setLoanDetails] = useState(null);
+  const [areas, setAreas] = useState([]);
+  const [selectedArea, setSelectedArea] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadingAreas, setLoadingAreas] = useState(true);
   const [error, setError] = useState(null);
 
   // Fetch profile data to get MoneyLenderId
@@ -29,6 +33,37 @@ const LoanTable = () => {
     fetchProfile();
   }, []);
 
+  // Fetch areas
+  useEffect(() => {
+    const fetchAreas = async () => {
+      if (!profile || !profile.uid) {
+        console.log("moneyLenderId not available, skipping fetchAreas");
+        return;
+      }
+      try {
+        console.log(`Fetching areas for moneyLenderId: ${profile.uid}`);
+        const response = await axios.get(
+          `${API_BASE_URL}/moneylender/get-areas/${profile.uid}`
+        );
+        console.log("Areas Response:", response.data);
+        if (response.data && Array.isArray(response.data.areas)) {
+          setAreas(response.data.areas);
+        } else {
+          setError("Invalid API response: areas not found");
+          console.error("Invalid areas response:", response.data);
+        }
+      } catch (err) {
+        setError("Failed to fetch areas: " + err.message);
+        console.error("Areas Fetch Error:", err);
+      } finally {
+        setLoadingAreas(false);
+      }
+    };
+    if (profile && profile.uid) {
+      fetchAreas();
+    }
+  }, [profile]);
+
   // Fetch loan data
   const fetchCustomers = async () => {
     if (!profile || !profile.uid) return;
@@ -36,9 +71,16 @@ const LoanTable = () => {
       const response = await axios.get(
         `${API_BASE_URL}/moneylender/getallissuedLoan`
       );
-      const filteredCustomers = response.data.customers.filter(
+      let filteredCustomers = response.data.customers.filter(
         (customer) => customer.MoneyLenderId === profile.uid
       );
+      // Apply area filter if selectedArea is set
+      if (selectedArea) {
+        filteredCustomers = filteredCustomers.filter(
+          (customer) => customer.Area.toLowerCase() === selectedArea.toLowerCase()
+        );
+      }
+      console.log("Filtered Customers by Area:", filteredCustomers);
       setCustomers(filteredCustomers || []);
     } catch (err) {
       setError("Failed to fetch loans");
@@ -47,7 +89,7 @@ const LoanTable = () => {
 
   useEffect(() => {
     if (profile) fetchCustomers();
-  }, [profile]);
+  }, [profile, selectedArea]);
 
   // Calculate stats for the grid
   const totals = customers.reduce(
@@ -82,7 +124,7 @@ const LoanTable = () => {
     setLoanDetails(null);
   };
 
-  if (loading) return <div className="p-8 text-gray-600">Loading data...</div>;
+  if (loading || loadingAreas) return <div className="p-8 text-gray-600">Loading data...</div>;
   if (error) return <div className="p-8 text-red-500">{error}</div>;
 
   return (
@@ -111,6 +153,26 @@ const LoanTable = () => {
               ₹{totals.totalUnpaid}
             </div>
           </div>
+        </div>
+
+        {/* Area Filter Dropdown */}
+        <div className="mb-6">
+          <label htmlFor="area-filter" className="block text-sm font-medium text-gray-700 mb-2">
+            Filter by Area
+          </label>
+          <select
+            id="area-filter"
+            value={selectedArea}
+            onChange={(e) => setSelectedArea(e.target.value)}
+            className="block w-full max-w-xs rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          >
+            <option value="">All Areas</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>
+                {area}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Active Loans Table */}
@@ -151,7 +213,7 @@ const LoanTable = () => {
                   </tr>
                 ) : (
                   customers.map((customer) => (
-                    <tr key={customer.Loan_Id}>
+                    <tr key={customer.LoanId}>
                       <td className="px-4 py-3 text-sm">{customer.Cus_Id}</td>
                       <td className="px-4 py-3 text-sm">{customer.Cus_Name}</td>
                       <td className="px-4 py-3 text-sm">₹{customer.Loan_Amt}</td>
@@ -189,7 +251,6 @@ const LoanTable = () => {
             <h2 className="font-semibold">Recent Transactions</h2>
           </div>
           <div className="p-4 space-y-4">
-            {/* Mocked transactions; replace with actual data if available */}
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">Loan Payment</p>
