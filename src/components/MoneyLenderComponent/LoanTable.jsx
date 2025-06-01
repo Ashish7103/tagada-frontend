@@ -98,7 +98,7 @@ const LoanTable = () => {
       id: loan.LoanId,
       uid: loan.Cus_Id,
       borrowerName: loan.Cus_Name,
-      nickname: loan.Cus_Nickname || "N/A",
+      nickname: loan.nickname || "N/A",
       mobile: loan.Mobile_No,
       area: loan.Area,
       loanAmount: `₹${loan.Loan_Amt}`,
@@ -193,7 +193,7 @@ const LoanTable = () => {
                   customers.map((customer) => (
                     <tr key={customer.LoanId}>
                       <td className="px-4 py-3 text-sm">{customer.Cus_Id}</td>
-                      <td className="px-4 py-3 text-sm">{customer.Cus_Nickname || "N/A"}</td>
+                      <td className="px-4 py-3 text-sm">{customer.nickname || null}</td>
                       <td className="px-4 py-3 text-sm">{customer.Cus_Name}</td>
                       <td className="px-4 py-3 text-sm">₹{customer.Loan_Amt}</td>
                       <td className="px-4 py-3 text-sm">₹{customer.unpaid}</td>
