@@ -115,7 +115,6 @@ const AddNewLoan = () => {
           UserId: moneyLenderId, // Use the fetched moneyLenderId
           start_date: newCustomer.start_date,
           completion_date: newCustomer.completion_date,
-          cus_nickname: newCustomer.Cus_nickname, // Assuming Cus_Id is used as nickname
         }
       );
 
@@ -146,7 +145,6 @@ const AddNewLoan = () => {
           PPD: "",
           start_date: "",
           completion_date: "",
-          Cus_nickname: "", // Reset nickname field
         });
 
         // Display success message and navigate after a short delay
@@ -194,20 +192,7 @@ const AddNewLoan = () => {
             placeholder="Enter Customer ID"
           />
         </div>
-{/* CUS NICKNAME */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            NICKNAME
-          </label>
-          <input
-            type=""
-            value={newCustomer.Cus_nickname}
-            onChange={(e) => handleNewCustomerChange("Cus_nickname", e.target.value)}
-            
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Nickname"
-          />
-          </div>
+
         {/* Area */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">

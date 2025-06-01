@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "./Navbar"; // Assuming you have a Navbar component
-import PaymentCalendar from "./PaymentCalendar"; // Assuming this component exists
-import { XMarkIcon } from "@heroicons/react/20/solid"; // Import XMarkIcon for the close button
+import Navbar from "./Navbar";
+import PaymentCalendar from "./PaymentCalendar";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 const API_BASE_URL = "https://tagada.onrender.com";
 
@@ -16,7 +16,6 @@ const LoanTable = () => {
   const [loadingAreas, setLoadingAreas] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch profile data to get MoneyLenderId
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -33,7 +32,6 @@ const LoanTable = () => {
     fetchProfile();
   }, []);
 
-  // Fetch areas
   useEffect(() => {
     const fetchAreas = async () => {
       if (!profile || !profile.uid) {
@@ -45,16 +43,13 @@ const LoanTable = () => {
         const response = await axios.get(
           `${API_BASE_URL}/moneylender/get-areas/${profile.uid}`
         );
-        console.log("Areas Response:", response.data);
         if (response.data && Array.isArray(response.data.areas)) {
           setAreas(response.data.areas);
         } else {
           setError("Invalid API response: areas not found");
-          console.error("Invalid areas response:", response.data);
         }
       } catch (err) {
         setError("Failed to fetch areas: " + err.message);
-        console.error("Areas Fetch Error:", err);
       } finally {
         setLoadingAreas(false);
       }
@@ -64,7 +59,6 @@ const LoanTable = () => {
     }
   }, [profile]);
 
-  // Fetch loan data
   const fetchCustomers = async () => {
     if (!profile || !profile.uid) return;
     try {
@@ -74,13 +68,11 @@ const LoanTable = () => {
       let filteredCustomers = response.data.customers.filter(
         (customer) => customer.MoneyLenderId === profile.uid
       );
-      // Apply area filter if selectedArea is set
       if (selectedArea) {
         filteredCustomers = filteredCustomers.filter(
           (customer) => customer.Area.toLowerCase() === selectedArea.toLowerCase()
         );
       }
-      console.log("Filtered Customers by Area:", filteredCustomers);
       setCustomers(filteredCustomers || []);
     } catch (err) {
       setError("Failed to fetch loans");
@@ -91,7 +83,6 @@ const LoanTable = () => {
     if (profile) fetchCustomers();
   }, [profile, selectedArea]);
 
-  // Calculate stats for the grid
   const totals = customers.reduce(
     (acc, c) => ({
       totalLoans: acc.totalLoans + 1,
@@ -107,6 +98,7 @@ const LoanTable = () => {
       id: loan.LoanId,
       uid: loan.Cus_Id,
       borrowerName: loan.Cus_Name,
+      nickname: loan.Cus_Nickname || "N/A",
       mobile: loan.Mobile_No,
       area: loan.Area,
       loanAmount: `₹${loan.Loan_Amt}`,
@@ -131,7 +123,6 @@ const LoanTable = () => {
     <div className="bg-gray-50 min-h-screen">
       <Navbar profile={profile || {}} />
       <main className="mt-14 px-4 py-6">
-        {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="bg-white rounded-lg p-4 shadow-sm">
             <div className="text-sm text-gray-500 mb-1">Total Loans</div>
@@ -155,7 +146,6 @@ const LoanTable = () => {
           </div>
         </div>
 
-        {/* Area Filter Dropdown */}
         <div className="mb-6">
           <label htmlFor="area-filter" className="block text-sm font-medium text-gray-700 mb-2">
             Filter by Area
@@ -175,7 +165,6 @@ const LoanTable = () => {
           </select>
         </div>
 
-        {/* Active Loans Table */}
         <div className="bg-white rounded-lg shadow-sm mb-6">
           <div className="p-4 border-b">
             <h2 className="font-semibold">Active Loans</h2>
@@ -184,30 +173,19 @@ const LoanTable = () => {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    UID
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Name
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Loan Amount
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Due
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Status
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    Action
-                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">UID</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nickname</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Loan Amount</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Due</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {customers.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className="px-4 py-3 text-sm text-center">
+                    <td colSpan="7" className="px-4 py-3 text-sm text-center">
                       No active loans found.
                     </td>
                   </tr>
@@ -215,6 +193,7 @@ const LoanTable = () => {
                   customers.map((customer) => (
                     <tr key={customer.LoanId}>
                       <td className="px-4 py-3 text-sm">{customer.Cus_Id}</td>
+                      <td className="px-4 py-3 text-sm">{customer.Cus_Nickname || "N/A"}</td>
                       <td className="px-4 py-3 text-sm">{customer.Cus_Name}</td>
                       <td className="px-4 py-3 text-sm">₹{customer.Loan_Amt}</td>
                       <td className="px-4 py-3 text-sm">₹{customer.unpaid}</td>
@@ -245,7 +224,6 @@ const LoanTable = () => {
           </div>
         </div>
 
-        {/* Recent Transactions */}
         <div className="bg-white rounded-lg shadow-sm">
           <div className="p-4 border-b">
             <h2 className="font-semibold">Recent Transactions</h2>
@@ -275,7 +253,6 @@ const LoanTable = () => {
           </div>
         </div>
 
-        {/* Loan Details Modal */}
         {loanDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
             <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4">
@@ -296,6 +273,10 @@ const LoanTable = () => {
                 <div>
                   <p className="text-sm text-gray-500">Customer UID</p>
                   <p className="font-medium">{loanDetails.uid}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Nickname</p>
+                  <p className="font-medium">{loanDetails.nickname}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Borrower Name</p>
@@ -353,282 +334,3 @@ const LoanTable = () => {
 };
 
 export default LoanTable;
-
-
-
-
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-// import PaymentCalendar from "./PaymentCalendar";
-
-// const LoanTable = ({
-//   customers,
-//   isAddingNew,
-//   newCustomer,
-//   onNewCustomerChange,
-//   onAddNewCustomer,
-//   onCancel,
-//   profile,
-// }) => {
-//   const [areas, setAreas] = useState([]);
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchAreas = async () => {
-//       try {
-//         const response = await axios.get(
-//           `http://localhost:5000/moneylender/get-areas/${profile.uid}`
-//         );
-//         setAreas(response.data.areas || []);
-//       } catch (err) {
-//         setError("Failed to fetch areas");
-//       }
-//     };
-//     fetchAreas();
-//   }, [profile.uid, isAddingNew]);
-
-//   const filteredAreas = areas.filter((area) =>
-//     area.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   return (
-//     <div className="bg-white rounded-xl shadow-sm mb-7">
-//       <div className="p-6">
-//         <h3 className="text-lg font-semibold mb-4">Active Loans</h3>
-//         <div className="overflow-x-auto">
-//           <table className="w-full">
-//             <thead>
-//               <tr className="text-left text-sm text-gray-500 border-b">
-//                 {[
-//                   "ID",
-//                   "Name",
-//                   "Mobile",
-//                   "Area",
-//                   "Loan Amount",
-//                   "Paid",
-//                   "Due",
-//                   "Installment",
-//                   "Start Date",
-//                   "End Date",
-//                   "Calendar",
-//                 ].map((th) => (
-//                   <th key={th} className="pb-3 px-4">
-//                     {th}
-//                   </th>
-//                 ))}
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {isAddingNew && (
-//                 <tr className="border-b bg-blue-50">
-//                   <td className="py-4 px-4">
-//                     <input
-//                       type="number"
-//                       value={newCustomer.Cus_Id}
-//                       onChange={(e) =>
-//                         onNewCustomerChange("Cus_Id", e.target.value)
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholder="Customer ID"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <input
-//                       type="text"
-//                       value={newCustomer.Cus_Name}
-//                       onChange={(e) =>
-//                         onNewCustomerChange("Cus_Name", e.target.value)
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholder="Name"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <input
-//                       type="text"
-//                       value={newCustomer.Mobile_No}
-//                       onChange={(e) =>
-//                         onNewCustomerChange("Mobile_No", e.target.value)
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholder="Mobile"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <div className="relative">
-//                       <input
-//                         type="text"
-//                         value={searchTerm}
-//                         onChange={(e) => setSearchTerm(e.target.value)}
-//                         className="w-full p-1 border rounded mb-1"
-//                         placeholder="Search or select area..."
-//                       />
-//                       <select
-//                         value={newCustomer.Area}
-//                         onChange={(e) => {
-//                           onNewCustomerChange("Area", e.target.value);
-//                           setSearchTerm(e.target.value);
-//                         }}
-//                         className="w-full p-1 border rounded"
-//                         required
-//                       >
-//                         <option value="" disabled>
-//                           Select Area
-//                         </option>
-//                         {error ? (
-//                           <option value="" disabled>
-//                             {error}
-//                           </option>
-//                         ) : (
-//                           filteredAreas.map((area, index) => (
-//                             <option key={index} value={area}>
-//                               {area}
-//                             </option>
-//                           ))
-//                         )}
-//                       </select>
-//                     </div>
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <input
-//                       type="number"
-//                       value={newCustomer.Loan_Amt}
-//                       onChange={(e) =>
-//                         onNewCustomerChange("Loan_Amt", e.target.value)
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholder="Loan Amount"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <input
-//                       type="number"
-//                       value={newCustomer.paid}
-//                       onChange={(e) =>
-//                         onNewCustomerChange("paid", e.target.value)
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholder="Paid"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <input
-//                       type="number"
-//                       value={newCustomer.unpaid}
-//                       onChange={(e) =>
-//                         onNewCustomerChange("unpaid", e.target.value)
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholder="Unpaid"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <input
-//                       type="number"
-//                       value={newCustomer.PPD}
-//                       onChange={(e) =>
-//                         onNewCustomerChange("PPD", e.target.value)
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholder="PPD"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <DatePicker
-//                       selected={
-//                         newCustomer.start_date
-//                           ? new Date(newCustomer.start_date)
-//                           : null
-//                       }
-//                       onChange={(date) =>
-//                         onNewCustomerChange(
-//                           "start_date",
-//                           date.toLocaleDateString("en-CA")
-//                         )
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholderText="Start Date"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <DatePicker
-//                       selected={
-//                         newCustomer.completion_date
-//                           ? new Date(newCustomer.completion_date)
-//                           : null
-//                       }
-//                       onChange={(date) =>
-//                         onNewCustomerChange(
-//                           "completion_date",
-//                           date.toLocaleDateString("en-CA")
-//                         )
-//                       }
-//                       className="w-full p-1 border rounded"
-//                       placeholderText="End Date"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <button
-//                       onClick={onAddNewCustomer}
-//                       className="bg-green-600 text-white px-3 py-1 rounded mr-2"
-//                     >
-//                       Post
-//                     </button>
-//                     <button
-//                       onClick={onCancel}
-//                       className="bg-red-600 text-white px-3 py-1 rounded"
-//                     >
-//                       Cancel
-//                     </button>
-//                   </td>
-//                 </tr>
-//               )}
-//               {customers.length === 0 ? (
-//                 <tr>
-//                   <td colSpan="11" className="text-center py-8 text-gray-500">
-//                     No loans found for this MoneyLenderId.
-//                   </td>
-//                 </tr>
-//               ) : (
-//                 customers.map((customer) => (
-//                   <tr key={customer.Id} className="border-b hover:bg-gray-50">
-//                     <td className="py-4 px-4">{customer.Cus_Id}</td>
-//                     <td className="py-4 px-4">{customer.Cus_Name}</td>
-//                     <td className="py-4 px-4">{customer.Mobile_No}</td>
-//                     <td className="py-4 px-4">{customer.Area}</td>
-//                     <td className="py-4 px-4">₹{customer.Loan_Amt}</td>
-//                     <td className="py-4 px-4 text-green-600">
-//                       ₹{customer.paid}
-//                     </td>
-//                     <td className="py-4 px-4 text-red-600">
-//                       ₹{customer.unpaid}
-//                     </td>
-//                     <td className="py-4 px-4">{customer.PPD}</td>
-//                     <td className="py-4 px-4">
-//                       {new Date(customer.start_date).toLocaleDateString()}
-//                     </td>
-//                     <td className="py-4 px-4">
-//                       {new Date(customer.completion_date).toLocaleDateString()}
-//                     </td>
-//                     <td className="py-4 px-4">
-//                       <PaymentCalendar
-//                         loanId={customer.LoanId}
-//                         cusId={customer.Cus_Id}
-//                         ppd={customer.PPD}
-//                       />
-//                     </td>
-//                   </tr>
-//                 ))
-//               )}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LoanTable;
