@@ -801,19 +801,19 @@ const LoanDashboard = () => {
 
   // Post new customer to backend
   const handleAddNewCustomer = async () => {
-    try {
-      const response = await axios.post(
+    const loanResponse = await axios.post(
         `${API_BASE_URL}/moneylender/add`,
         {
           ...newCustomer,
           Cus_Id: parseInt(newCustomer.Cus_Id),
+          Area: newCustomer.Area,
           Loan_Amt: parseFloat(newCustomer.Loan_Amt),
           paid: parseFloat(newCustomer.paid),
           unpaid: parseFloat(newCustomer.unpaid),
           PPD: parseInt(newCustomer.PPD),
-          UserId: profile.uid,
-          start_date: newCustomer.start_date, // Add start_date
-          completion_date: newCustomer.completion_date, // Add completion_date
+          UserId: moneyLenderId, // Use the fetched moneyLenderId
+          start_date: newCustomer.start_date,
+          completion_date: newCustomer.completion_date,
         }
       );
       if (response.status === 200 || response.status === 201) {

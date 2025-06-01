@@ -108,7 +108,6 @@ const AddNewLoan = () => {
         {
           ...newCustomer,
           Cus_Id: parseInt(newCustomer.Cus_Id),
-          Area: newCustomer.Area,
           Loan_Amt: parseFloat(newCustomer.Loan_Amt),
           paid: parseFloat(newCustomer.paid),
           unpaid: parseFloat(newCustomer.unpaid),
